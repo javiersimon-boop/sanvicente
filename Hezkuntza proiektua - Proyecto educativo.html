@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hezkuntza Proiektua | Proyecto Educativo - San Vicente de Paúl</title>
+    
+    <!-- FUENTES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- ESTILOS (Tailwind) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sv-primary': '#006D7B',      // Verde azulado oscuro
+                        'sv-accent-1': '#5FB3C5',     // Azul claro
+                        'sv-accent-2': '#95C11F',     // Verde lima
+                        'sv-accent-3': '#FDC300',     // Amarillo
+                        'sv-cta': '#F3953F',          // Naranja
+                        'sv-light': '#F9FAFB',        // Gris muy claro fondo
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { -webkit-font-smoothing: antialiased; }
+    </style>
+</head>
+<body class="bg-white text-gray-800 flex flex-col min-h-screen font-sans">
+
+    <!-- 1. HERO SECTION -->
+    <header class="relative bg-sv-primary h-64 flex items-center justify-center overflow-hidden shadow-md">
+        <!-- Imagen de fondo -->
+        <div class="absolute inset-0 opacity-30">
+            <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Proyecto Educativo" class="w-full h-full object-cover">
+        </div>
+        
+        <!-- Capas de contraste -->
+        <div class="absolute inset-0 bg-sv-primary/60 mix-blend-multiply"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-sv-primary/90 via-transparent to-transparent"></div>
+
+        <!-- Contenido -->
+        <div class="relative z-10 text-center px-4">
+            <h1 class="text-3xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg tracking-tight">
+                Hezkuntza Proiektua
+            </h1>
+            <div class="w-24 h-1 bg-sv-accent-2 mx-auto my-3 rounded-full shadow-sm"></div>
+            <h2 class="text-3xl md:text-5xl font-bold text-white/90 drop-shadow-md">
+                Proyecto Educativo
+            </h2>
+        </div>
+    </header>
+
+    <!-- 2. CONTENIDO PRINCIPAL -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20 mb-10">
+
+        <!-- INTRODUCCIÓN (Doble columna para equidad) -->
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-900">Gure Izateko Era <span class="text-sv-primary mx-2">|</span> Nuestra Razón de Ser</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12 text-lg text-gray-700 leading-relaxed items-center">
+                <div class="text-right md:border-r-2 md:border-gray-100 md:pr-12">
+                    <p>
+                        San Vicente de Paúl ikastetxean pertsona erdigunean jartzen duen hezkuntza eredua sustatzen dugu. Gure proiektua bikaintasun akademikoa eta giza balioak uztartzean datza.
+                    </p>
+                </div>
+                <div class="text-left md:pl-4">
+                    <p>
+                        En el colegio San Vicente de Paúl promovemos un modelo educativo que pone a la persona en el centro. Nuestro proyecto consiste en unir la excelencia académica con los valores humanos.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4 PILARES ESTRATÉGICOS -->
+        <div class="grid md:grid-cols-2 gap-10">
+            
+            <!-- Pilar 1: Identidad Vicenciana -->
+            <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-sv-primary hover:-translate-y-1 transition duration-300">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="w-16 h-16 bg-sv-primary/10 rounded-full flex items-center justify-center text-sv-primary">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-sv-primary mb-2 text-center">Nortasun Bizentziarra</h3>
+                        <p class="text-gray-700 text-center leading-relaxed">
+                            Kristau balioetan oinarritutako hezkuntza integrala eskaintzen dugu. Elkartasuna, hurbiltasuna eta gizarte-konpromisoa dira gure oinarriak.
+                        </p>
+                    </div>
+                    <div class="w-full h-px bg-gray-200"></div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-500 mb-2 text-center">Identidad Vicenciana</h3>
+                        <p class="text-gray-700 text-center leading-relaxed">
+                            Ofrecemos una educación integral basada en valores cristianos. La solidaridad, la cercanía y el compromiso social son nuestros cimientos.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pilar 2: Innovación Metodológica -->
+            <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-sv-accent-1 hover:-translate-y-1 transition duration-300">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="w-16 h-16 bg-sv-accent-1/10 rounded-full flex items-center justify-center text-sv-accent-1">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-sv-accent-1 mb-2 text-center">Berrikuntza Pedagogikoa</h3>
+                        <p class="text-gray-700 text-center leading-relaxed">
+                            Metodologia aktiboen aldeko apustua egiten dugu: Ikaskuntza Kooperatiboa, Proiektuetan Oinarritutako Ikaskuntza (ABP) eta pentsamenduaren kultura.
+                        </p>
+                    </div>
+                    <div class="w-full h-px bg-gray-200"></div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-500 mb-2 text-center">Innovación Pedagógica</h3>
+                        <p class="text-gray-700 text-center leading-relaxed">
+                            Apostamos por metodologías activas: Aprendizaje Cooperativo, Aprendizaje Basado en Proyectos (ABP) y cultura de pensamiento.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pilar 3: Plurilingüismo -->
+            <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-sv-accent-2 hover:-translate-y-1 transition duration-300">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="w-16 h-16 bg-sv-accent-2/10 rounded-full flex items-center justify-center text-sv-accent-2">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-sv-accent-2 mb-2 text-center">Eleaniztasuna</h3>
+                        <p class="text-gray-700 text-center leading-relaxed">
+                            Euskara ardatz hartuta, ingelesaren ikaskuntza goiztiarra eta frantsesaren aukera sustatzen ditugu (Eleanitz Proiektua).
+                        </p>
+                    </div>
+                    <div class="w-full h-px bg-gray-200"></div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-500 mb-2 text-center">Plurilingüismo</h3>
+                        <p class="text-gray-700 text-center leading-relaxed">
+                            Con el euskera como eje, fomentamos el aprendizaje temprano del inglés y la opción del francés (Proyecto Eleanitz).
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pilar 4: Atención a la Diversidad -->
+            <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-sv-cta hover:-translate-y-1 transition duration-300">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="w-16 h-16 bg-sv-cta/10 rounded-full flex items-center justify-center text-sv-cta">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-sv-cta mb-2 text-center">Aniztasunaren Arreta</h3>
+                        <p class="text-gray-700 text-center leading-relaxed">
+                            Eskola inklusiboa gara. Ikasle bakoitzaren erritmoak errespetatzen ditugu, beharrezko baliabideak eta orientazio pertsonalizatua eskainiz.
+                        </p>
+                    </div>
+                    <div class="w-full h-px bg-gray-200"></div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-500 mb-2 text-center">Atención a la Diversidad</h3>
+                        <p class="text-gray-700 text-center leading-relaxed">
+                            Somos una escuela inclusiva. Respetamos los ritmos de cada alumno, ofreciendo los recursos necesarios y orientación personalizada.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SECCIÓN TRANSVERSAL: Digitalización y Convivencia -->
+        <div class="bg-sv-light rounded-3xl p-8 md:p-12 border border-gray-200">
+            <h3 class="text-2xl font-bold text-center text-sv-primary mb-10">Zeharkako Ardatzak <span class="text-gray-400 mx-2">|</span> Ejes Transversales</h3>
+            <div class="grid md:grid-cols-2 gap-y-10 gap-x-12">
+                
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 mt-1">
+                        <div class="w-10 h-10 rounded-full bg-sv-accent-3 flex items-center justify-center text-white font-bold shadow-sm">1</div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-1">Heldutasun Teknologikoa</h4>
+                        <p class="text-gray-700 mb-2">Ikasle digital arduratsuak hezten ditugu (Chromebook 1:1, Google Workspace).</p>
+                        <h4 class="text-lg font-bold text-gray-500 mb-1">Madurez Tecnológica</h4>
+                        <p class="text-gray-700">Educamos alumnos digitales responsables.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 mt-1">
+                        <div class="w-10 h-10 rounded-full bg-sv-accent-3 flex items-center justify-center text-white font-bold shadow-sm">2</div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-1">Bizikidetza eta Bakea</h4>
+                        <p class="text-gray-700 mb-2">Elkarrizketa eta errespetua oinarri dituen giro positiboa sustatzen dugu.</p>
+                        <h4 class="text-lg font-bold text-gray-500 mb-1">Convivencia y Paz</h4>
+                        <p class="text-gray-700">Fomentamos un clima positivo basado en el diálogo y el respeto.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 mt-1">
+                        <div class="w-10 h-10 rounded-full bg-sv-accent-3 flex items-center justify-center text-white font-bold shadow-sm">3</div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-1">Barne-begirada (HARA)</h4>
+                        <p class="text-gray-700 mb-2">Adimen emozionala eta norberaren ezagutza lantzeko programa.</p>
+                        <h4 class="text-lg font-bold text-gray-500 mb-1">Interioridad (HARA)</h4>
+                        <p class="text-gray-700">Programa para trabajar la inteligencia emocional y el autoconocimiento.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 mt-1">
+                        <div class="w-10 h-10 rounded-full bg-sv-accent-3 flex items-center justify-center text-white font-bold shadow-sm">4</div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-1">Hezkidetza</h4>
+                        <p class="text-gray-700 mb-2">Berdintasunean oinarritutako harremanak bultzatzen ditugu.</p>
+                        <h4 class="text-lg font-bold text-gray-500 mb-1">Coeducación</h4>
+                        <p class="text-gray-700">Impulsamos relaciones basadas en la igualdad.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- (Sin Footer ni Nav) -->
+
+</body>
+</html>
