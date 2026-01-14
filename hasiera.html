@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>San Vicente de Paúl Irun</title>
+    
+    <!-- FUENTES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- TAILWIND CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sv-primary': '#006D7B',   /* Verde Corporativo Principal */
+                        'sv-accent-1': '#5FB3C5',  /* Azul Claro */
+                        'sv-accent-2': '#95C11F',  /* Verde Lima */
+                        'sv-accent-3': '#FDC300',  /* Amarillo */
+                        'sv-cta': '#F3953F',       /* Naranja (Call to Action) */
+                        'sv-light': '#F9FAFB',     /* Gris muy claro para fondos */
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { -webkit-font-smoothing: antialiased; }
+        
+        /* ESTILOS EXTRA */
+        .hero-clip {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+        @media (max-width: 768px) {
+            .hero-clip {
+                clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+            }
+        }
+        /* Loader animado para la carga de noticias */
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #006D7B;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* Animación de entrada suave */
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Estilos del Modal */
+        dialog::backdrop {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+        }
+        dialog[open] {
+            animation: zoomIn 0.3s ease-out;
+        }
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Estilos para el Slideshow del Banner */
+        .banner-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 1;
+        }
+        .banner-slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+        /* Capa de enlace por encima de las imágenes */
+        .banner-link-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800 pb-10">
+
+    <!-- 1. HERO (Slideshow de Imágenes con Enlace) -->
+    <div class="w-full bg-white pt-4 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Contenedor con ratio de aspecto fijo (aprox 3.8:1) -->
+            <div style="position: relative; width: 100%; padding-top: 26.19%; 
+                box-shadow: 0 4px 20px 0 rgba(0,0,0,0.1); overflow: hidden;
+                border-radius: 12px; background-color: #f3f4f6;">
+                
+                <!-- IMÁGENES DEL SLIDESHOW -->
+                <!-- Imagen 1 -->
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiDQnI4wI5z8vAviabRVOuUDytAox0otn9yCvPO0UHs2WG_6VqyDNeSrphTOcojixkiGHOwka1mc1T-sNz5Fj9XgDMRial6BJlE1_eMkUzr0GA6BR7eB6qRExm-if21nZMMFY9Q3xTU8Vq-FEHjTSagTmNYZV52ZQIBA07kDyH8MLLN2qM1ly9P78xzr-wR/s1580/1.png" 
+                     alt="Banner 1" class="banner-slide active">
+                
+                <!-- Imagen 2 -->
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj9G6Zd3jUQDSOjQZ8r5hAMn4OMVSKNn4ULA7QJbJWMOKZM1LMXrTxKBlr4nFfJqonCqXzAiDykQv_YuR1g0B3X7_ulwgzzofk2VYwI0fruQg3c9DJjn46nxB7AIN0D88jsX4PIpJkWRiPA2htL_7yDziUfSJhWROU8qIuG-84z0c9evjmVoMg6U86likJf/s1580/2.png" 
+                     alt="Banner 2" class="banner-slide">
+                
+
+                <!-- CAPA TRANSPARENTE DE ENLACE (Cubre todo para que sea clickeable) -->
+                <a href="https://calendar.app.google/NmxmP3qnKE5kxFbn7" target="_blank" 
+                   class="banner-link-layer"
+                   aria-label="Pedir cita en el calendario">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT DEL SLIDESHOW -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.banner-slide');
+            let currentSlide = 0;
+            const slideInterval = 4000; // 4 segundos
+
+            function nextSlide() {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+
+            if (slides.length > 1) {
+                setInterval(nextSlide, slideInterval);
+            }
+        });
+    </script>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            
+            <!-- 3. COLUMNA IZQUIERDA (Tarjetas Estáticas) -->
+            <div class="lg:col-span-4 space-y-6">
+                <!-- Tarjeta 1: Proyecto (Accent 1 - Azul) -->
+                <a href="https://sites.google.com/sanvicenteirun.com/web/hasiera/hezkuntza-proiektua-proyecto-educativo" class="block bg-white rounded-xl shadow-md border-l-4 border-sv-accent-1 p-6 hover:shadow-lg transition-all group">
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 bg-sv-accent-1/10 rounded-lg text-sv-accent-1 group-hover:bg-sv-accent-1 group-hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-lg group-hover:text-sv-accent-1 transition-colors">Hezkuntza proiektua</h3>
+                            <p class="text-sm text-gray-500 mb-2">Berrikuntza eta laguntza pertsonala...</p>
+                            <div class="h-px w-full bg-gray-100 my-2"></div>
+                            <h3 class="font-bold text-gray-900 text-lg group-hover:text-sv-accent-1 transition-colors">Proyecto educativo</h3>
+                            <p class="text-sm text-gray-500 mb-2">Un modelo de enseñanza que integra...</p>
+                            <span class="text-xs font-bold text-sv-accent-1 uppercase tracking-wide group-hover:underline">Gehiago irakurri &rarr;</span>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Tarjeta 2: Prematrícula (Accent 2 - Verde) -->
+                <a href="https://sites.google.com/sanvicenteirun.com/web/hasiera/matrikulazioa-matr%C3%ADcula" class="block bg-white rounded-xl shadow-md border-l-4 border-sv-accent-2 p-6 hover:shadow-lg transition-all group">
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 bg-sv-accent-2/10 rounded-lg text-sv-accent-2 group-hover:bg-sv-accent-2 group-hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-lg group-hover:text-sv-accent-2 transition-colors">Aurre-matrikula 2026</h3>
+                            <p class="text-sm text-gray-500 mb-2">Ezagutu gure hezkuntza-komunitatearekin...</p>
+                            <div class="h-px w-full bg-gray-100 my-2"></div>
+                            <h3 class="font-bold text-gray-900 text-lg group-hover:text-sv-accent-2 transition-colors">Prematrícula 2026</h3>
+                            <p class="text-sm text-gray-500 mb-2">Descubre el proceso para unirte...</p>
+                            <span class="text-xs font-bold text-sv-accent-2 uppercase tracking-wide group-hover:underline">Gehiago irakurri &rarr;</span>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Tarjeta 3: Contacto (CTA - Naranja) -->
+                <a href="https://sites.google.com/sanvicenteirun.com/web/hasiera/kontaktua-contacto" class="block bg-white rounded-xl shadow-md border-l-4 border-sv-cta p-6 hover:shadow-lg transition-all group">
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 bg-sv-cta/10 rounded-lg text-sv-cta group-hover:bg-sv-cta group-hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-lg group-hover:text-sv-cta transition-colors">Kontaktua eta bisitak</h3>
+                            <p class="text-sm text-gray-500 mb-2">Hemen gaude laguntzeko...</p>
+                            <div class="h-px w-full bg-gray-100 my-2"></div>
+                            <h3 class="font-bold text-gray-900 text-lg group-hover:text-sv-cta transition-colors">Contacto y visitas</h3>
+                            <p class="text-sm text-gray-500 mb-2">Estamos aquí para ayudarte...</p>
+                            <span class="text-xs font-bold text-sv-cta uppercase tracking-wide group-hover:underline">Gehiago irakurri &rarr;</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 4. COLUMNA DERECHA (Noticias Dinámicas) -->
+            <div class="lg:col-span-8">
+                <div class="border-b-2 border-sv-accent-1 pb-4 mb-8 flex justify-between items-end">
+                    <div>
+                        <h2 class="text-3xl font-bold text-sv-primary">Azken albisteak</h2>
+                        <span class="text-xl font-medium text-gray-400">Últimas noticias</span>
+                    </div>
+                </div>
+
+                <!-- Contenedor donde se inyectan las noticias -->
+                <div id="news-container" class="space-y-6 min-h-[300px]">
+                    <div class="loader"></div> <!-- Spinner de carga inicial -->
+                </div>
+
+                <div class="mt-12 text-center lg:text-left">
+                    <a href="https://sites.google.com/sanvicenteirun.com/web/hasiera/berriak-noticias" target="_blank" class="inline-block bg-sv-primary text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-opacity-90 hover:shadow-lg transition-all">
+                        Albiste guztiak ikusi <span class="opacity-70 font-normal">| Ver todas</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 5. SECCIÓN ACCESOS RÁPIDOS (Horizontal - Colores variados) -->
+        <div class="mt-20">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Horarios (Accent 2 - Verde) -->
+                <a href="https://sites.google.com/sanvicenteirun.com/web/hasiera/informazioa-informaci%C3%B3n/ordutegiak-horarios" class="group bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-t-4 border-t-sv-accent-2 hover:shadow-md hover:-translate-y-1 transition-all text-center flex flex-col items-center">
+                    <div class="w-12 h-12 bg-sv-accent-2/10 rounded-full flex items-center justify-center text-sv-accent-2 mb-4 group-hover:bg-sv-accent-2 group-hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <span class="block font-bold text-gray-900 text-lg group-hover:text-sv-accent-2 transition-colors">Ordutegiak</span>
+                    <span class="block font-bold text-gray-500 text-base mb-1">Horarios</span>
+                    <span class="text-xs text-gray-400 uppercase tracking-wide">Eskola-jardunaldia</span>
+                </a>
+                <!-- Secretaría (Primary - Verde oscuro) -->
+                <a href="https://sites.google.com/sanvicenteirun.com/web/hasiera/informazioa-informaci%C3%B3n/idazkaritza-secretar%C3%ADa" class="group bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-t-4 border-t-sv-primary hover:shadow-md hover:-translate-y-1 transition-all text-center flex flex-col items-center">
+                    <div class="w-12 h-12 bg-sv-primary/10 rounded-full flex items-center justify-center text-sv-primary mb-4 group-hover:bg-sv-primary group-hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    </div>
+                    <span class="block font-bold text-gray-900 text-lg group-hover:text-sv-primary transition-colors">Idazkaritza</span>
+                    <span class="block font-bold text-gray-500 text-base mb-1">Secretaría</span>
+                    <span class="text-xs text-gray-400 uppercase tracking-wide">Gestioak / Trámites</span>
+                </a>
+                <!-- Comedor (Accent 3 - Amarillo) -->
+                <a href="https://sites.google.com/sanvicenteirun.com/web/hasiera/informazioa-informaci%C3%B3n/jangela-comedor" class="group bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-t-4 border-t-sv-accent-3 hover:shadow-md hover:-translate-y-1 transition-all text-center flex flex-col items-center">
+                    <div class="w-12 h-12 bg-sv-accent-3/10 rounded-full flex items-center justify-center text-sv-accent-3 mb-4 group-hover:bg-sv-accent-3 group-hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    </div>
+                    <span class="block font-bold text-gray-900 text-lg group-hover:text-sv-accent-3 transition-colors">Jangela</span>
+                    <span class="block font-bold text-gray-500 text-base mb-1">Comedor</span>
+                    <span class="text-xs text-gray-400 uppercase tracking-wide">Hileroko menua</span>
+                </a>
+                <!-- Calendario (Accent 1 - Azul claro) -->
+                <a href="https://sites.google.com/sanvicenteirun.com/web/hasiera/informazioa-informaci%C3%B3n/egutegia-calendario" class="group bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-t-4 border-t-sv-accent-1 hover:shadow-md hover:-translate-y-1 transition-all text-center flex flex-col items-center">
+                    <div class="w-12 h-12 bg-sv-accent-1/10 rounded-full flex items-center justify-center text-sv-accent-1 mb-4 group-hover:bg-sv-accent-1 group-hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    </div>
+                    <span class="block font-bold text-gray-900 text-lg group-hover:text-sv-accent-1 transition-colors">Egutegia</span>
+                    <span class="block font-bold text-gray-500 text-base mb-1">Calendario</span>
+                    <span class="text-xs text-gray-400 uppercase tracking-wide">Ekitaldiak / Eventos</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- 6. PIE DE ENLACES (Subpáginas adicionales - Uniforme) -->
+        <div class="mt-16 pt-10 border-t border-gray-100">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Nor Gara -->
+                <a href="https://sites.google.com/sanvicenteirun.com/web/hasiera/gure-eskola-nuestro-colegio/nor-gara-qui%C3%A9nes-somos" class="flex items-center gap-4 p-5 bg-white border border-gray-100 border-l-4 border-l-sv-primary rounded-xl hover:shadow-md transition-all group">
+                    <div class="flex-shrink-0 w-12 h-12 bg-sv-primary/10 rounded-full flex items-center justify-center text-sv-primary group-hover:bg-sv-primary group-hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    </div>
+                    <div><span class="block font-bold text-sv-primary text-lg">Nor gara</span><span class="text-sm text-gray-500">Quiénes somos</span></div>
+                </a>
+                <!-- Hezkuntza Eskaintza -->
+                <a href="https://sites.google.com/sanvicenteirun.com/web/hasiera/gure-eskola-nuestro-colegio/hezkuntza-eskaintza-oferta-educativa" class="flex items-center gap-4 p-5 bg-white border border-gray-100 border-l-4 border-l-sv-primary rounded-xl hover:shadow-md transition-all group">
+                    <div class="flex-shrink-0 w-12 h-12 bg-sv-primary/10 rounded-full flex items-center justify-center text-sv-primary group-hover:bg-sv-primary group-hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    </div>
+                    <div><span class="block font-bold text-sv-primary text-lg">Hezkuntza eskaintza</span><span class="text-sm text-gray-500">Oferta educativa</span></div>
+                </a>
+                <!-- Zerbitzuak -->
+                <a href="https://sites.google.com/sanvicenteirun.com/web/hasiera/gure-eskola-nuestro-colegio/zerbitzuak-servicios" class="flex items-center gap-4 p-5 bg-white border border-gray-100 border-l-4 border-l-sv-primary rounded-xl hover:shadow-md transition-all group">
+                    <div class="flex-shrink-0 w-12 h-12 bg-sv-primary/10 rounded-full flex items-center justify-center text-sv-primary group-hover:bg-sv-primary group-hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                    <div><span class="block font-bold text-sv-primary text-lg">Zerbitzuak</span><span class="text-sm text-gray-500">Servicios</span></div>
+                </a>
+                <!-- Instalazioak -->
+                <a href="https://sites.google.com/sanvicenteirun.com/web/hasiera/gure-eskola-nuestro-colegio/instalazioak-instalaciones" class="flex items-center gap-4 p-5 bg-white border border-gray-100 border-l-4 border-l-sv-primary rounded-xl hover:shadow-md transition-all group">
+                    <div class="flex-shrink-0 w-12 h-12 bg-sv-primary/10 rounded-full flex items-center justify-center text-sv-primary group-hover:bg-sv-primary group-hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    </div>
+                    <div><span class="block font-bold text-sv-primary text-lg">Instalazioak</span><span class="text-sm text-gray-500">Instalaciones</span></div>
+                </a>
+                <!-- Pastoraltza -->
+                <a href="https://sites.google.com/sanvicenteirun.com/web/hasiera/gure-eskola-nuestro-colegio/pastoral" class="flex items-center gap-4 p-5 bg-white border border-gray-100 border-l-4 border-l-sv-primary rounded-xl hover:shadow-md transition-all group">
+                    <div class="flex-shrink-0 w-12 h-12 bg-sv-primary/10 rounded-full flex items-center justify-center text-sv-primary group-hover:bg-sv-primary group-hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    </div>
+                    <div><span class="block font-bold text-sv-primary text-lg">Pastoraltza</span><span class="text-sm text-gray-500">Pastoral</span></div>
+                </a>
+                <!-- Eskola Kontseilua -->
+                <a href="https://sites.google.com/sanvicenteirun.com/web/hasiera/gure-eskola-nuestro-colegio/eskola-kontseilua-consejo-escolar" class="flex items-center gap-4 p-5 bg-white border border-gray-100 border-l-4 border-l-sv-primary rounded-xl hover:shadow-md transition-all group">
+                    <div class="flex-shrink-0 w-12 h-12 bg-sv-primary/10 rounded-full flex items-center justify-center text-sv-primary group-hover:bg-sv-primary group-hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    </div>
+                    <div><span class="block font-bold text-sv-primary text-lg">Eskola kontseilua</span><span class="text-sm text-gray-500">Consejo escolar</span></div>
+                </a>
+                <!-- Lan egin gurekin -->
+                <a href="https://sites.google.com/sanvicenteirun.com/web/hasiera/gure-eskola-nuestro-colegio/lan-egin-gurekin-trabaja-aqu%C3%AD" class="flex items-center gap-4 p-5 bg-white border border-gray-100 border-l-4 border-l-sv-primary rounded-xl hover:shadow-md transition-all group">
+                    <div class="flex-shrink-0 w-12 h-12 bg-sv-primary/10 rounded-full flex items-center justify-center text-sv-primary group-hover:bg-sv-primary group-hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    </div>
+                    <div><span class="block font-bold text-sv-primary text-lg">Lan egin gurekin</span><span class="text-sm text-gray-500">Trabaja con nosotros/-as</span></div>
+                </a>
+                <!-- Ikas Komunitateak -->
+                <a href="https://sites.google.com/sanvicenteirun.com/web/hasiera/gure-eskola-nuestro-colegio/komunitatea-comunidad" class="flex items-center gap-4 p-5 bg-white border border-gray-100 border-l-4 border-l-sv-primary rounded-xl hover:shadow-md transition-all group">
+                    <div class="flex-shrink-0 w-12 h-12 bg-sv-primary/10 rounded-full flex items-center justify-center text-sv-primary group-hover:bg-sv-primary group-hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    </div>
+                    <div><span class="block font-bold text-sv-primary text-lg">Ikas komunitateak</span><span class="text-sm text-gray-500">Comunidades aprendizaje</span></div>
+                </a>
+                <!-- Ikastetxeko Planak -->
+                <a href="https://sites.google.com/sanvicenteirun.com/web/hasiera/gure-eskola-nuestro-colegio/planak-planes" class="flex items-center gap-4 p-5 bg-white border border-gray-100 border-l-4 border-l-sv-primary rounded-xl hover:shadow-md transition-all group">
+                    <div class="flex-shrink-0 w-12 h-12 bg-sv-primary/10 rounded-full flex items-center justify-center text-sv-primary group-hover:bg-sv-primary group-hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+                    </div>
+                    <div><span class="block font-bold text-sv-primary text-lg">Ikastetxeko planak</span><span class="text-sm text-gray-500">Planes de centro</span></div>
+                </a>
+                <!-- AMPA -->
+                <a href="ampa.html" class="flex items-center gap-4 p-5 bg-white border border-gray-100 border-l-4 border-l-sv-primary rounded-xl hover:shadow-md transition-all group">
+                    <div class="flex-shrink-0 w-12 h-12 bg-sv-primary/10 rounded-full flex items-center justify-center text-sv-primary group-hover:bg-sv-primary group-hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    </div>
+                    <div><span class="block font-bold text-sv-primary text-lg">AMPA / IGE</span><span class="text-sm text-gray-500">Gurasoen Elkartea</span></div>
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- MODAL DE NOTICIAS -->
+    <dialog id="news-modal" class="rounded-xl shadow-2xl p-0 w-full max-w-2xl bg-white backdrop:bg-gray-900/50 open:animate-zoomIn z-50">
+        <div class="bg-sv-primary p-6 flex justify-between items-start text-white sticky top-0 z-10">
+            <div id="modal-date" class="text-sm font-bold uppercase tracking-wider opacity-90"></div>
+            <button onclick="closeModal()" class="text-white hover:text-sv-accent-3 transition bg-white/10 hover:bg-white/20 p-2 rounded-full"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+        </div>
+        <div class="p-8 space-y-6 overflow-y-auto max-h-[70vh]">
+            <!-- IMAGEN DE NOTICIA -->
+            <img id="modal-img" class="w-full h-64 object-cover rounded-lg mb-6 hidden" src="" alt="Noticia">
+
+            <div class="pb-6 border-b border-gray-100">
+                <span class="text-xs font-bold text-sv-accent-2 uppercase tracking-wide mb-2 block">Euskara</span>
+                <h2 id="modal-title-eu" class="text-2xl font-bold text-gray-900 mb-3"></h2>
+                <div id="modal-body-eu" class="text-gray-600 leading-relaxed text-sm whitespace-pre-line"></div>
+            </div>
+
+            <div class="pt-2">
+                <span class="text-xs font-bold text-sv-accent-1 uppercase tracking-wide mb-2 block">Castellano</span>
+                <h2 id="modal-title-es" class="text-2xl font-bold text-gray-900 mb-3"></h2>
+                <div id="modal-body-es" class="text-gray-600 leading-relaxed text-sm whitespace-pre-line"></div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 pt-4 mt-4 border-t border-gray-100">
+                <a id="modal-link-btn" href="#" target="_blank" class="hidden flex-1 text-center bg-sv-primary text-white font-bold py-3 px-6 rounded-lg hover:bg-opacity-90 transition shadow-sm items-center justify-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Ikusi / Ver</a>
+                <button onclick="shareNews()" class="flex-1 bg-gray-100 text-gray-700 font-bold py-3 px-6 rounded-lg hover:bg-gray-200 transition shadow-sm flex items-center justify-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>Elkarbanatu / Compartir</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- SCRIPT DE NOTICIAS INTEGRADO Y MEJORADO -->
+    <script>
+        // CONFIGURACIÓN: URL de tu Hoja de Cálculo (Publicada como TSV - IMPORTANTE)
+        // Se utiliza output=tsv para evitar conflictos con comas dentro del texto de las noticias
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRH7yAF9u3eguKbDSemxaDviakRJMDMGNxTSe6U86ZO8poS6wZAIpN3JJhSvOxTBnyYWeif1ZhY6x33/pub?output=tsv'; 
+        
+        const container = document.getElementById('news-container');
+        const modal = document.getElementById('news-modal');
+        let allNews = [];
+        let currentNewsIndex = null;
+
+        // Mapa de meses para conversión de fecha
+        const monthMap = {
+            'URR': 9, 'OCT': 9, 'OCTUBRE': 9, 'OCTOBER': 9,
+            'AZA': 10, 'NOV': 10, 'NOVIEMBRE': 10, 'NOVEMBER': 10,
+            'ABE': 11, 'DIC': 11, 'DICIEMBRE': 11, 'DECEMBER': 11,
+            'URT': 0, 'ENE': 0, 'ENERO': 0, 'JANUARY': 0,
+            'OTS': 1, 'FEB': 1, 'FEBRERO': 1, 'FEBRUARY': 1,
+            'MAR': 2, 'MARZO': 2, 'MARCH': 2,
+            'API': 3, 'ABR': 3, 'ABRIL': 3, 'APRIL': 3,
+            'MAI': 4, 'MAY': 4, 'MAYO': 4,
+            'EKA': 5, 'JUN': 5, 'JUNIO': 5, 'JUNE': 5,
+            'UZT': 6, 'JUL': 6, 'JULIO': 6, 'JULY': 6,
+            'ABU': 7, 'AGO': 7, 'AGOSTO': 7, 'AUGUST': 7,
+            'IRA': 8, 'SEP': 8, 'SEPTIEMBRE': 8, 'SEPTEMBER': 8
+        };
+
+        // Carga Inicial
+        async function loadNews() {
+            try {
+                // Intentamos conectar
+                const response = await fetch(SHEET_URL);
+                if (!response.ok) throw new Error("Error de conexión");
+                const data = await response.text();
+                
+                // Parseamos los datos con la función específica para TSV
+                let parsedNews = parseCSV(data);
+                
+                // Procesamos (Filtrado > 1 año + Ordenar Cronológicamente)
+                allNews = processNews(parsedNews);
+                
+                container.innerHTML = ''; // Limpiar loader
+
+                if (allNews.length === 0) {
+                    showFallbackNews(); // Si no hay noticias válidas, mostramos fallback
+                    return;
+                }
+
+                // Renderizar las 3 MÁS RECIENTES para la portada
+                const latestNews = allNews.slice(0, 3);
+                
+                // Renderizamos
+                latestNews.forEach((news) => {
+                    const html = createNewsHTML(news); 
+                    container.insertAdjacentHTML('beforeend', html);
+                });
+
+                // Asignar eventos click a toda la tarjeta y habilitar navegación por teclado
+                const items = container.querySelectorAll('.fade-in');
+                items.forEach((item, index) => {
+                    item.onclick = () => openModalWithItem(latestNews[index]);
+                    
+                    // Accesibilidad por teclado (Tecla Enter)
+                    item.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') openModalWithItem(latestNews[index]);
+                    });
+                });
+
+            } catch (error) {
+                console.warn("Fallo al cargar noticias externas. Usando datos de ejemplo.", error);
+                container.innerHTML = '';
+                showFallbackNews();
+            }
+        }
+
+        // --- LÓGICA DE FILTRADO Y ORDENACIÓN ---
+        function processNews(newsList) {
+            const today = new Date();
+            const oneYearAgo = new Date();
+            oneYearAgo.setFullYear(today.getFullYear() - 1);
+            oneYearAgo.setHours(0,0,0,0);
+
+            return newsList.map(news => {
+                let parts = news.curso ? news.curso.split('-') : [];
+                let year = parseInt(parts[0]);
+
+                if (isNaN(year)) year = today.getFullYear();
+                else if (year < 100) year += 2000;
+                
+                let mesStr = news.mes ? news.mes.split('/')[0].trim().toUpperCase() : 'ENE';
+                let monthIndex = monthMap[mesStr];
+                
+                if (typeof monthIndex === 'undefined') monthIndex = 0; 
+                
+                let day = parseInt(news.dia) || 1;
+
+                // Ajuste lógica curso escolar (Si es mes escolar previo a Enero, sumamos año si aplica)
+                // Nota: Tu lógica original asume que si el mes es < 8 (Enero-Agosto) es del año siguiente al inicio del curso.
+                // Ejemplo: Curso 2024-25. Enero (0) -> 2025. Septiembre (8) -> 2024.
+                if (monthIndex < 8) year = year + 1; 
+
+                const newsDate = new Date(year, monthIndex, day);
+                news.dateObject = newsDate;
+                return news;
+            })
+            .filter(news => !isNaN(news.dateObject))
+            .filter(news => news.dateObject >= oneYearAgo) // Filtro: último año
+            .sort((a, b) => b.dateObject - a.dateObject); // Ordenar descendente (Más reciente primero)
+        }
+
+        // NUEVO PARSER TSV (TABULADORES) - ROBUSTO
+        // Separa por '\t' en lugar de comas para evitar errores con comas gramaticales
+        function parseCSV(str) {
+            // Dividimos por filas
+            const rows = str.trim().split(/\r?\n/);
+            
+            // Saltamos la cabecera (slice 1) y mapeamos
+            return rows.slice(1).map(row => {
+                // Separamos por TABULADOR (\t)
+                const cols = row.split('\t');
+
+                if (cols.length < 2) return null;
+
+                return {
+                    curso: cols[0] || '2024-25',
+                    mes: cols[1],
+                    dia: cols[2],
+                    titulo_eu: cols[3],
+                    resumen_eu: cols[4],
+                    titulo_es: cols[5],
+                    resumen_es: cols[6],
+                    enlace: cols[7] || '#',
+                    imagen: cols[8] || ''
+                };
+            }).filter(n => n);
+        }
+
+        // Datos de reserva por si falla la conexión
+        function showFallbackNews() {
+            const fallbackData = [
+                { mes: 'URR / OCT', dia: '28', titulo_eu: 'Berrikuntzaren Egunaren Ospakizuna', resumen_eu: 'Bigarren Hezkuntzako gure ikasleek robotika proiektuak aurkeztu zituzten.', titulo_es: 'Celebración del Día de la Innovación', resumen_es: 'Nuestros alumnos de Secundaria presentaron proyectos de robótica.', enlace: '#', imagen: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
+                { mes: 'URR / OCT', dia: '22', titulo_eu: 'Kultur Trukea Lyongo Ikastetxearekin', resumen_eu: 'Frantziako gure ikastetxe elkartuko 20 ikasleren bisita jaso dugu.', titulo_es: 'Intercambio Cultural con Lyon', resumen_es: 'Recibimos la visita de 20 estudiantes de nuestro centro asociado.', enlace: '#', imagen: '' }
+            ];
+            // Renderizamos fallback
+            fallbackData.forEach(news => {
+                 container.insertAdjacentHTML('beforeend', createNewsHTML(news));
+            });
+            
+            const items = container.querySelectorAll('.fade-in');
+            items.forEach((item, index) => {
+                item.onclick = () => openModalWithItem(fallbackData[index]);
+            });
+        }
+
+        // Generador HTML de Noticia (MEJORADO: Todo clickeable y semántico)
+        function createNewsHTML(news) {
+            const displayMes = news.mes ? news.mes.split('/')[0] : 'DATA';
+            
+            // Usamos article, cursor-pointer y tabindex para accesibilidad y UX
+            return `
+            <article class="flex flex-col md:flex-row gap-6 border-b border-gray-100 pb-8 last:border-0 fade-in cursor-pointer group hover:bg-gray-50 transition-colors rounded-lg p-2" tabindex="0" role="button">
+                <div class="flex-shrink-0 text-center md:text-left pt-2 md:w-24 group-hover:scale-105 transition-transform">
+                    <p class="text-sv-accent-1 font-bold text-xs uppercase tracking-widest">${displayMes}</p>
+                    <p class="text-sv-primary font-bold text-5xl">${news.dia}</p>
+                </div>
+                <div class="flex-grow space-y-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-sv-primary mb-1 group-hover:text-sv-accent-1 transition-colors">${news.titulo_eu}</h3>
+                        <p class="text-gray-600 text-sm mb-2 leading-relaxed line-clamp-2">${news.resumen_eu}</p>
+                    </div>
+                    <div class="border-t border-dashed border-gray-200 w-full"></div>
+                    <div>
+                        <h3 class="text-xl font-bold text-sv-primary mb-1 group-hover:text-sv-accent-1 transition-colors">${news.titulo_es}</h3>
+                        <p class="text-gray-600 text-sm mb-2 leading-relaxed line-clamp-2">${news.resumen_es}</p>
+                        <span class="inline-block mt-2 text-xs font-bold text-sv-accent-1 uppercase tracking-wide group-hover:underline">
+                            Leer más / Gehiago irakurri &rarr;
+                        </span>
+                    </div>
+                </div>
+            </article>`;
+        }
+
+        // Lógica del Modal (Apertura y Relleno de datos)
+        window.openModalWithItem = function(news) {
+            if (!news) return;
+            
+            // Textos
+            document.getElementById('modal-date').textContent = `${news.mes} - ${news.dia}`;
+            document.getElementById('modal-title-eu').textContent = news.titulo_eu;
+            document.getElementById('modal-body-eu').textContent = news.resumen_eu;
+            document.getElementById('modal-title-es').textContent = news.titulo_es;
+            document.getElementById('modal-body-es').textContent = news.resumen_es;
+
+            // IMAGEN
+            const imgEl = document.getElementById('modal-img');
+            if (news.imagen && news.imagen.trim() !== '') {
+                imgEl.src = news.imagen;
+                imgEl.classList.remove('hidden');
+            } else {
+                imgEl.classList.add('hidden');
+            }
+
+            // Enlace
+            const linkBtn = document.getElementById('modal-link-btn');
+            if (news.enlace && news.enlace !== '#' && news.enlace.trim() !== '') {
+                linkBtn.href = news.enlace;
+                linkBtn.classList.remove('hidden');
+                linkBtn.classList.add('flex');
+            } else {
+                linkBtn.classList.add('hidden');
+                linkBtn.classList.remove('flex');
+            }
+
+            modal.showModal();
+            document.body.style.overflow = 'hidden'; // Bloquear scroll del fondo
+            
+            window.currentSharedNews = news; // Guardar referencia para compartir
+        }
+
+        window.closeModal = function() {
+            modal.close();
+            document.body.style.overflow = ''; // Restaurar scroll
+        }
+
+        // Cerrar al hacer click fuera del modal
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // Lógica de Compartir (Web Share API)
+        window.shareNews = async function() {
+            const news = window.currentSharedNews;
+            if (!news) return;
+
+            const shareData = {
+                title: `San Vicente Irun: ${news.titulo_es}`,
+                text: `📰 Noticia: ${news.titulo_es} (@svpaulirun)`,
+                url: news.enlace && news.enlace !== '#' ? news.enlace : window.location.href
+            };
+
+            if (navigator.share) {
+                try { await navigator.share(shareData); } catch (e) {}
+            } else {
+                prompt("Copia este enlace para compartir:", shareData.url);
+            }
+        }
+
+        // Iniciar carga de noticias
+        loadNews();
+    </script>
+
+</body>
+</html>
